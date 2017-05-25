@@ -274,7 +274,7 @@ void draw_date(){
     if(weekday_text[i]>96)weekday_text[i]-=32;
   }
 
-  for(int i=0; i<3; i++){
+  for(int i=0; i<4; i++){
     char s[] = " ";
     s[0] = weekday_text[i];
     strcpy(grid[12+i], s);
@@ -317,8 +317,8 @@ void draw_date(){
   for(int i=0; i<4; i++){
     char s[] = " ";
     s[0] = day_text[i];
-    strcpy(grid[8+i], s);
-    text_layer_set_text(time_layer[8+i], grid[8+i]);
+    strcpy(grid[4+i], s);
+    text_layer_set_text(time_layer[4+i], grid[4+i]);
 
   }
   #endif
@@ -420,6 +420,7 @@ void weather_forecast_set_icon(WeatherIcon icon) {
 
 
 void weather_set_temperature(int16_t t) {
+
   if (t == 999) {
     snprintf(s_temperature_text, sizeof(s_temperature_text), "%s", "NA");
     //    snprintf(s_temperature_text, sizeof(s_temperature_text), "%s\u00B0", "???");
@@ -469,14 +470,17 @@ static void prv_update_display() {
 
 
   // --------------------------- //	
-  switch (settings.row2) {
+  switch (0) {
 
     case 0: // dayname
 
     layer_set_hidden(text_layer_get_layer(layer_week_text), true);
     // layer_set_hidden(bitmap_layer_get_layer(wk_layer), true); 
 
-    layer_set_hidden(bitmap_layer_get_layer(layer_batt_img), false); 
+    if (charge_percent<=30)
+      layer_set_hidden(bitmap_layer_get_layer(layer_batt_img), false); 
+    else
+      layer_set_hidden(bitmap_layer_get_layer(layer_batt_img), true);  
     layer_set_hidden(text_layer_get_layer(battery_text_layer), true);
 
     break;
